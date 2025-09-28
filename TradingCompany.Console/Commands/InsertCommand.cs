@@ -35,8 +35,27 @@ namespace TradingCompany.Console.Interfaces
                     }
                     Console.Write($"Enter {prop.Name}: ");
                     var input = Console.ReadLine();
-                    var convertedValue = Convert.ChangeType(input, Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType);
-                    prop.SetValue(instance, convertedValue);
+
+                    object convertedValue = null;
+                    var targetType = Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType;
+
+                    try
+                    {
+                        if (targetType == typeof(decimal) || targetType == typeof(double) || targetType == typeof(float))
+                        {
+                            convertedValue = decimal.Parse(input, System.Globalization.CultureInfo.InvariantCulture);
+                        }
+                        else
+                        {
+                            convertedValue = Convert.ChangeType(input, targetType);
+                        }
+                        prop.SetValue(instance, convertedValue);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Invalid value for {prop.Name}. Error: {ex.Message}");
+                        return;
+                    }
                 }
             }
             _dal.Create(instance);

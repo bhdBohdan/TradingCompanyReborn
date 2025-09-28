@@ -4,7 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TradingCompany.Console.Interfaces;
 
-namespace TradingCompany.Console
+namespace TradingCompany.Console.AppMenu
 {
     using System;
     using TradingCompany.DAL.Interfaces;

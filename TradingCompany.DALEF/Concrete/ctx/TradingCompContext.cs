@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TradingCompany.DALEF.Data;
 
-namespace TradingCompany.DALEF.Concrete
+namespace TradingCompany.DALEF.Concrete.ctx
 {
     public class TradingCompContext : TradCompCtx
     {

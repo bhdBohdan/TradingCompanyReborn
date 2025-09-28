@@ -1,0 +1,98 @@
+﻿using AutoMapper;
+using Microsoft.Extensions.Logging.Abstractions;
+using TradingCompany.DALEF.Automapper;
+using TradingCompany.DALEF.Concrete;
+
+namespace TradingCompany.Test.DALEF
+{
+    using TradingCompany.DALEF.AutoMapper;
+    using Xunit;
+
+    public class TestsRoleDALEF
+    {
+        private readonly string _testConnectionString;
+        private readonly IMapper _mapper;
+        private readonly RoleDALEF _RoleDal;
+
+        public TestsRoleDALEF()
+        {
+            _testConnectionString = "Data Source=localhost,1433;Database=TestTradingCompany;Role ID=sa;Password=MyStr0ng!Pass123;Encrypt=True;TrustServerCertificate=True;MultipleActiveResultSets=True";
+
+            var configExpression = new MapperConfigurationExpression();
+            configExpression.AddProfile<RoleMap>();
+
+            var loggerFactory = NullLoggerFactory.Instance;
+            var mapperConfig = new MapperConfiguration(configExpression, loggerFactory);
+            _mapper = mapperConfig.CreateMapper();
+
+            _RoleDal = new RoleDALEF(_testConnectionString, _mapper);
+        }
+
+        [Fact]
+        public void GetAll()
+        {
+            var Roles = _RoleDal.GetAll();
+            Assert.NotNull(Roles);
+            Assert.NotEqual(0, Roles.Count);
+        }
+
+        [Fact]
+        public void GetById()
+        {
+            var Role = _RoleDal.GetById(100001);
+            Assert.NotNull(Role);
+            Assert.IsType<string>(Role.RoleName);
+        }
+
+        [Fact]
+        public void Insert()
+        {
+            var RoleDTO = new TradingCompany.DTO.Role
+            {
+                RoleName = "newRole111",
+               
+            };
+            var Role = _RoleDal.Create(RoleDTO);
+            _RoleDal.Delete(Role.Id);
+            Assert.Equal(RoleDTO.RoleName, Role.RoleName);
+        }
+
+        [Fact]
+        public void Delete()
+        {
+            var RoleDTO = new TradingCompany.DTO.Role
+            {
+                RoleName = "newRole111",
+
+            };
+            var Role = _RoleDal.Create(RoleDTO);
+            var result = _RoleDal.Delete(Role.Id);
+            Assert.True(result);
+        }
+
+        [Fact]
+        public void Update()
+        {
+            // Arrange: create a Role to update
+            var RoleDTO = new TradingCompany.DTO.Role
+            {
+                RoleName = "Role111",
+               
+            };
+
+            var createdRole = _RoleDal.Create(RoleDTO);
+
+            // Act: update some fields
+            createdRole.RoleName = "updatedRole22";
+            
+            var updatedRole = _RoleDal.Update(createdRole);
+            _RoleDal.Delete(updatedRole.Id);
+
+
+            // Assert
+            Assert.NotNull(updatedRole);
+            Assert.Equal("updatedRole22", updatedRole.RoleName);
+
+        }
+    }
+}

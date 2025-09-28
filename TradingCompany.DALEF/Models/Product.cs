@@ -6,11 +6,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TradingCompany.DALEF.Models;
 
+[Index("ProductName", Name = "IX_Products_ProductName")]
 public partial class Product
 {
     [Key]
+    [Column("ProductID")]
     public int ProductId { get; set; }
 
+    [Column("UserID")]
     public int UserId { get; set; }
 
     [StringLength(100)]
@@ -22,8 +25,17 @@ public partial class Product
     [Column(TypeName = "decimal(10, 2)")]
     public decimal Price { get; set; }
 
+    [StringLength(50)]
+    public string? Category { get; set; }
+
     [Column(TypeName = "datetime")]
-    public DateTime? CreatedAt { get; set; }
+    public DateTime? CreatedDate { get; set; }
+
+    [Column(TypeName = "datetime")]
+    public DateTime? UpdatedAt { get; set; }
+
+    [InverseProperty("Product")]
+    public virtual Order? Order { get; set; }
 
     [ForeignKey("UserId")]
     [InverseProperty("Products")]

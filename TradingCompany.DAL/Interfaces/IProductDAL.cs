@@ -7,8 +7,7 @@ using TradingCompany.DTO;
 
 namespace TradingCompany.DAL.Interfaces
 {
-    public interface IUserDAL: IGenericDAL<User>
+    public interface IProductDAL: IGenericDAL<Product>
     {
-
     }
 }

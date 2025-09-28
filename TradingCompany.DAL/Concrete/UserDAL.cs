@@ -2,24 +2,20 @@
 using System.Collections.Generic;
 using Microsoft.Data.SqlClient;
 using TradingCompany.DAL.Interfaces;
-using TradingCompany.Dto;
+using TradingCompany.DTO;
+using AutoMapper;
+
 
 namespace TradingCompany.DAL.Concrete
 {
-    public class UserDAL : IUserDAL
+    public class UserDAL : GenericDAL<User>, IUserDAL
     {
 
-        private readonly string _connStr;
-
-        public UserDAL(string _connStr)
-        {
-
-            this._connStr = _connStr;
-        }
+        public UserDAL(string connStr, IMapper mapper) : base(connStr, mapper) { }
 
 
 
-        public bool Delete(int userId)
+        public override bool Delete(int userId)
         {
             using (SqlConnection connection = new SqlConnection(_connStr))
             using (SqlCommand command = connection.CreateCommand())
@@ -42,7 +38,7 @@ namespace TradingCompany.DAL.Concrete
             return true;
 
         }
-        public List<User> GetAll()
+        public override List<User> GetAll()
         {
             using (SqlConnection connection = new SqlConnection(_connStr))
             using (SqlCommand command = connection.CreateCommand())
@@ -61,7 +57,7 @@ namespace TradingCompany.DAL.Concrete
                     Console.WriteLine(reader["UserID"]);
                     User user = new User
                     {
-                        UserId = (int)reader["UserID"],
+                        Id = (int)reader["UserID"],
                         Email = (string)reader["Email"],
                         PasswordHash = (string)reader["PasswordHash"],
                         RestoreKeyword = (string)reader["RestoreKeyword"],
@@ -76,12 +72,12 @@ namespace TradingCompany.DAL.Concrete
 
         }
 
-        public User GetById(int userId)
+        public override User GetById(int userId)
         {
             throw new NotImplementedException();
         }
 
-        public User Register(User user)
+        public override User Create(User user)
         {
             //SqlConnection connection = new SqlConnection("Data Source=localhost,1433;Persist Security Info=False;User ID=sa;Password=MyStr0ng!Pass123;Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Application Name=\"SQL Server Management Studio\";Command Timeout=30");
 
@@ -106,7 +102,7 @@ namespace TradingCompany.DAL.Concrete
             //return user;
         }
 
-        public User Update(User user)
+        public override User Update(User user)
         {
             throw new NotImplementedException();
         }

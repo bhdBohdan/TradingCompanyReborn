@@ -4,12 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TradingCompany.Dto
+namespace TradingCompany.DTO
 {
     public class Role
     {
-        public int RoleId { get; set; }
+        public int Id { get; set; }
         public string RoleName { get; set; }
-        public string RoleDescr { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Id}: {RoleName}";
+        }
+
     }
 }

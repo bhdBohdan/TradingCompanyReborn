@@ -6,8 +6,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TradingCompany.DALEF.Models;
 
+[Index("CreatedAt", Name = "IX_Users_CreatedAt")]
 [Index("Username", Name = "UQ__Users__536C85E4A7D0B23D", IsUnique = true)]
 [Index("Email", Name = "UQ__Users__A9D10534568A099B", IsUnique = true)]
+[Index("Email", Name = "UX_Users_Email", IsUnique = true)]
+[Index("Username", Name = "UX_Users_Username", IsUnique = true)]
 public partial class User
 {
     [Key]
@@ -27,7 +30,12 @@ public partial class User
     public string Email { get; set; } = null!;
 
     [Column(TypeName = "datetime")]
-    public DateTime? CreatedAt { get; set; }
+    public DateTime? CreatedAt { get; set; } 
+
+    [Column(TypeName = "datetime")]
+    public DateTime? UpdatedAt { get; set; } 
+    [InverseProperty("Buyer")]
+    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 
     [InverseProperty("User")]
     public virtual ICollection<Product> Products { get; set; } = new List<Product>();

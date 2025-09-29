@@ -102,10 +102,17 @@ namespace TradingCompany.DALEF.Concrete
             {
                 try
                 {
+                    if(entity.Id <= 0) throw new Exception("Invalid id");
+
                     var existingEntity = ctx.Roles.Find(entity.Id);
                     if (existingEntity == null) throw new Exception("Non existing id");
 
-                    _mapper.Map(entity, existingEntity);
+
+                    existingEntity.RoleName = string.IsNullOrEmpty(entity.RoleName) 
+                        ? existingEntity.RoleName : entity.RoleName;
+
+
+                    //_mapper.Map(entity, existingEntity);
                     ctx.SaveChanges();
                     return _mapper.Map<Role>(existingEntity);
                 }

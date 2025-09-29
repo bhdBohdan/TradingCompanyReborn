@@ -20,10 +20,12 @@ namespace TradingCompany.Test.DALEF
 
         public TestsUserProfileDALEF()
         {
+
             _testConnectionString = "Data Source=localhost,1433;Database=TestTradingCompany;User ID=sa;Password=MyStr0ng!Pass123;Encrypt=True;TrustServerCertificate=True;MultipleActiveResultSets=True";
 
+
             var configExpression = new MapperConfigurationExpression();
-            configExpression.AddProfile<UserMap>();
+            configExpression.AddProfile<UserProfileMap>();
 
             var loggerFactory = NullLoggerFactory.Instance;
             var mapperConfig = new MapperConfiguration(configExpression, loggerFactory);
@@ -34,30 +36,13 @@ namespace TradingCompany.Test.DALEF
         [Fact]
         public void GetUserProfileByUserId()
         {
-            var userProfile = _userProfileDal.GetById(100001);
+            var userProfiles = _userProfileDal.GetAll();
+            var userProfile = _userProfileDal.GetById(userProfiles[0].Id);
             Assert.NotNull(userProfile);
             Assert.IsType<string>(userProfile.FirstName);
         }
-
-        [Fact]
-        public void InsertUserProfile()
-        {
-            _userProfileDal.Delete(100001);
-            var userProfileDTO = new TradingCompany.DTO.UserProfile
-            {
-                UserId = 100001,
-                FirstName = "John",
-                LastName = "Doe",
-                Address = "123 Main St",
-                Phone = "555-1234",
-                
-                
-            };
-            var userProfile = _userProfileDal.Create(userProfileDTO);
-            //_userProfileDal.Delete(userProfile.Id);
-            Assert.Equal(userProfileDTO.FirstName, userProfile.FirstName);
-            Assert.False(string.IsNullOrEmpty(userProfile.FirstName));
-        }
+       
+        
 
         [Fact]
         public void GetAllUserProfiles()
@@ -68,11 +53,26 @@ namespace TradingCompany.Test.DALEF
         }
 
         [Fact]
-        public void DeleteUserProfile()
-        {        
-            
-            var result = _userProfileDal.Delete(100001);
-            Assert.True(result);
+        public void InsertAndDeleteUserProfile()
+        {
+            // Arrange: create a new profile
+            var userProfileDTO = new TradingCompany.DTO.UserProfile
+            {
+                UserId = 100001, // Make sure this user exists in your test DB!
+                FirstName = "John",
+                LastName = "Doe",
+                Address = "123 Main St",
+                Phone = "555-1234",
+            };
+            var createdProfile = _userProfileDal.Create(userProfileDTO);
+
+            // Assert insert
+            Assert.NotNull(createdProfile);
+            Assert.Equal(userProfileDTO.FirstName, createdProfile.FirstName);
+
+            // Act & Assert: delete
+            var deleteResult = _userProfileDal.Delete(createdProfile.Id);
+            Assert.True(deleteResult);
         }
 
         [Fact]
@@ -86,6 +86,7 @@ namespace TradingCompany.Test.DALEF
                 LastName = "Smith",
                 Address = "456 Elm St",
                 Phone = "555-5678",
+                Gender = null,
                 
             };
             var updatedProfile = _userProfileDal.Update(userProfileDTO);

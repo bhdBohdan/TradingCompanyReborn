@@ -94,10 +94,23 @@ namespace TradingCompany.DALEF.Concrete
             {
                 try
                 {
-                    var existingEntity = ctx.UserProfiles.Find(profile.Id);
-                    if (existingEntity == null) return null;
+                    if (profile == null || profile.Id <= 0)
+                        throw new ArgumentException("Invalid UserProfile entity or ID.");
 
-                    _mapper.Map(profile, existingEntity);
+                    var existingEntity = ctx.UserProfiles.Find(profile.Id);
+                    if (existingEntity == null) throw new Exception("Non existing id");
+
+
+                    existingEntity.FirstName = string.IsNullOrEmpty(profile.FirstName) ? existingEntity.FirstName : profile.FirstName;
+                    existingEntity.LastName = string.IsNullOrEmpty(profile.LastName) ? existingEntity.LastName : profile.LastName;
+                    existingEntity.Address = string.IsNullOrEmpty(profile.Address) ? existingEntity.Address : profile.Address;
+                    existingEntity.Phone = string.IsNullOrEmpty(profile.Phone) ? existingEntity.Phone : profile.Phone;
+                    existingEntity.Gender = string.IsNullOrEmpty(profile.Gender) ? existingEntity.Gender : profile.Gender;
+                    existingEntity.UpdatedAt = DateTime.Now;
+                    
+
+
+                    //_mapper.Map(profile, existingEntity);
                     ctx.SaveChanges();
                     return _mapper.Map<UserProfile>(existingEntity);
                 }

@@ -16,7 +16,7 @@ namespace TradingCompany.Test.DALEF
 
         public TestsRoleDALEF()
         {
-            _testConnectionString = "Data Source=localhost,1433;Database=TestTradingCompany;Role ID=sa;Password=MyStr0ng!Pass123;Encrypt=True;TrustServerCertificate=True;MultipleActiveResultSets=True";
+            _testConnectionString = "Data Source=localhost,1433;Database=TestTradingCompany;User ID=sa;Password=MyStr0ng!Pass123;Encrypt=True;TrustServerCertificate=True;MultipleActiveResultSets=True";
 
             var configExpression = new MapperConfigurationExpression();
             configExpression.AddProfile<RoleMap>();
@@ -39,7 +39,9 @@ namespace TradingCompany.Test.DALEF
         [Fact]
         public void GetById()
         {
-            var Role = _RoleDal.GetById(100001);
+            var Roles = _RoleDal.GetAll();
+
+            var Role = _RoleDal.GetById(Roles[0].Id);
             Assert.NotNull(Role);
             Assert.IsType<string>(Role.RoleName);
         }

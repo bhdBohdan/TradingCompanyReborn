@@ -11,8 +11,12 @@ namespace TradingCompany.DALEF.AutoMapper
     {
         public ProductMap()
         {
+
             CreateMap<TradingCompany.DALEF.Models.Product, TradingCompany.DTO.Product>()
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.ProductId));
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.ProductId))
+                .ForAllMembers(opt =>
+                opt.Condition((src, dest, srcMember) => srcMember != null));
+
             CreateMap<TradingCompany.DTO.Product, TradingCompany.DALEF.Models.Product>()
                 .ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => src.Id));
         }

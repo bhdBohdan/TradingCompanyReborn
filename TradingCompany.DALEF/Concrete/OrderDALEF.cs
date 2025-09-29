@@ -92,10 +92,21 @@ namespace TradingCompany.DALEF.Concrete
             {
                 try
                 {
-                    var existingEntity = ctx.Orders.Find(entity.Id);
-                    if (existingEntity == null) throw new Exception("Non existing id");                  
 
-                    _mapper.Map(entity, existingEntity);
+                    if (entity.Id <= 0)
+                        throw new ArgumentException("Order ID must be provided for update.");
+
+                    var existingEntity = ctx.Orders.Find(entity.Id);
+                    if (existingEntity == null) throw new Exception("Non existing id");
+
+
+                    if ((entity.ProductId) > 0)
+                        existingEntity.ProductId = entity.ProductId;
+
+                    if ((entity.BuyerId) > 0)
+                        existingEntity.BuyerId = entity.BuyerId;
+
+                    //_mapper.Map(entity, existingEntity);
                     ctx.SaveChanges();
                     return _mapper.Map<Order>(existingEntity);
                 }

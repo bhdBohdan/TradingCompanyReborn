@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using TradingCompany.DAL.Concrete;
 using TradingCompany.DAL.Interfaces;
 using TradingCompany.DALEF.Concrete.ctx;
+using TradingCompany.DALEF;
 using TradingCompany.DTO;
 
 namespace TradingCompany.DALEF.Concrete
@@ -97,10 +98,28 @@ namespace TradingCompany.DALEF.Concrete
             {
                 try
                 {
+                    if (entity.Id <= 0)
+                        throw new ArgumentException("Product ID must be provided for update.");
+
                     var existingEntity = ctx.Products.Find(entity.Id);
                     if (existingEntity == null) throw new Exception("Non existing id");
+                
 
-                    _mapper.Map(entity, existingEntity);
+                    if (!string.IsNullOrEmpty(entity.ProductName))
+                        existingEntity.ProductName = entity.ProductName;
+
+                    if (!string.IsNullOrEmpty(entity.Description))
+                        existingEntity.Description = entity.Description;
+
+                    if ((entity.Price) > 0)
+                        existingEntity.Price = entity.Price;
+
+                    if (!string.IsNullOrEmpty(entity.Category))
+                       existingEntity.Category = entity.Category;
+
+                    
+
+                   // _mapper.Map(entity, existingEntity);
                     ctx.SaveChanges();
                     return _mapper.Map<Product>(existingEntity);
                 }

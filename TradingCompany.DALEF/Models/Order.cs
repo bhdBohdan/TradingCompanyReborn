@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 namespace TradingCompany.DALEF.Models;
 
 [Index("OrderedAt", Name = "IX_Orders_OrderedAt")]
-[Index("ProductId", Name = "UQ__Orders__B40CC6ECBBBAEC3B", IsUnique = true)]
 public partial class Order
 {
     [Key]
@@ -23,11 +22,16 @@ public partial class Order
     [Column(TypeName = "datetime")]
     public DateTime? OrderedAt { get; set; }
 
+    [StringLength(12)]
+    public string? Status { get; set; }
+
+    public int Quantity { get; set; }
+
     [ForeignKey("BuyerId")]
     [InverseProperty("Orders")]
     public virtual User Buyer { get; set; } = null!;
 
     [ForeignKey("ProductId")]
-    [InverseProperty("Order")]
+    [InverseProperty("Orders")]
     public virtual Product Product { get; set; } = null!;
 }

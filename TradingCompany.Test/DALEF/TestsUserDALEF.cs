@@ -5,6 +5,7 @@ using TradingCompany.DALEF.Concrete;
 
 namespace TradingCompany.Test.DALEF
 {
+    using Microsoft.Extensions.Configuration;
     using Xunit;
 
     public class TestsUserDALEF
@@ -15,7 +16,10 @@ namespace TradingCompany.Test.DALEF
 
         public TestsUserDALEF()
         {
-            _testConnectionString = "Data Source=localhost,1433;Database=TestTradingCompany;User ID=sa;Password=MyStr0ng!Pass123;Encrypt=True;TrustServerCertificate=True;MultipleActiveResultSets=True";
+            var config = new ConfigurationBuilder()
+               .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+               .Build();
+            _testConnectionString = config.GetConnectionString("TestConnection");
 
             var configExpression = new MapperConfigurationExpression();
             configExpression.AddProfile<UserMap>();

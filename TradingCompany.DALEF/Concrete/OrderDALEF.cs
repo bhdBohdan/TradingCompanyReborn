@@ -106,8 +106,15 @@ namespace TradingCompany.DALEF.Concrete
                     if ((entity.BuyerId) > 0)
                         existingEntity.BuyerId = entity.BuyerId;
 
-                    //_mapper.Map(entity, existingEntity);
-                    ctx.SaveChanges();
+                    if ((entity.Quantity) > 0)
+                        existingEntity.Quantity = entity.Quantity;
+
+                    if (!string.IsNullOrEmpty(entity.Status)) //'CANCELLED', 'ACTIVE', 'DONE'
+                        existingEntity.Status = entity.Status;
+
+
+                        //_mapper.Map(entity, existingEntity);
+                        ctx.SaveChanges();
                     return _mapper.Map<Order>(existingEntity);
                 }
                 catch (Exception ex)

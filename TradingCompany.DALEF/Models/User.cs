@@ -30,10 +30,11 @@ public partial class User
     public string Email { get; set; } = null!;
 
     [Column(TypeName = "datetime")]
-    public DateTime? CreatedAt { get; set; } 
+    public DateTime? CreatedAt { get; set; }
 
     [Column(TypeName = "datetime")]
-    public DateTime? UpdatedAt { get; set; } 
+    public DateTime? UpdatedAt { get; set; }
+
     [InverseProperty("Buyer")]
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 

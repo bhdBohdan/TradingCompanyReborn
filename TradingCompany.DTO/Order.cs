@@ -15,11 +15,16 @@ namespace TradingCompany.DTO
 
         public int BuyerId { get; set; }
 
+        public string? Status { get; set; }
+
+        public int Quantity { get; set; }
+
         public DateTime? OrderedAt { get; set; }
 
         public override string ToString()
         {
-            return $"{Id}: Product {ProductId} ordered by User {BuyerId} at {OrderedAt?.ToShortDateString()}";
+            return $"{Id}: Product {ProductId} ordered by User {BuyerId} at {OrderedAt?.ToShortDateString()} \n" +
+                $"\t Status: {Status}, Quantity bought {Quantity}";
         }
     }
 }

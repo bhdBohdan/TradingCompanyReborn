@@ -35,7 +35,7 @@ public partial class Product
     public DateTime? UpdatedAt { get; set; }
 
     [InverseProperty("Product")]
-    public virtual Order? Order { get; set; }
+    public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 
     [ForeignKey("UserId")]
     [InverseProperty("Products")]

@@ -27,7 +27,6 @@ public partial class TradCompCtx : DbContext
     public virtual DbSet<UserProfile> UserProfiles { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseSqlServer("");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -37,12 +36,13 @@ public partial class TradCompCtx : DbContext
             entity.HasKey(e => e.OrderId).HasName("PK__Orders__C3905BAFF2287F10");
 
             entity.Property(e => e.OrderedAt).HasDefaultValueSql("(getdate())");
+            entity.Property(e => e.Quantity).HasDefaultValue(1);
 
             entity.HasOne(d => d.Buyer).WithMany(p => p.Orders)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Orders_Buyer");
 
-            entity.HasOne(d => d.Product).WithOne(p => p.Order)
+            entity.HasOne(d => d.Product).WithMany(p => p.Orders)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Orders_Products");
         });

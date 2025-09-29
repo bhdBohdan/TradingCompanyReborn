@@ -22,7 +22,10 @@ namespace TradingCompany.DTO
 
         public override string ToString()
         {
-            return $"{Id}: {UserId} {FirstName} {LastName} - {Gender} - {Address} - {Phone} - {BankCardNumber} - {UpdatedAt?.ToShortDateString()}";
+            return $"{Id}: {UserId} {FirstName}  {LastName} \n" +
+                $"{Gender} - {Address}\n" +
+                $" {Phone} - {BankCardNumber} \n" +
+                $" {UpdatedAt?.ToShortDateString()}\n\n";
         }
     }
 }

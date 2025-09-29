@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -76,7 +77,7 @@ namespace TradingCompany.DALEF.Concrete
             {
                 try
                 {
-                    var entity = ctx.Orders.Find(id);
+                    var entity = ctx.Orders.Include(p=> p.Product).Include(p => p.Buyer).FirstOrDefault(p => p.OrderId == id);
                     return _mapper.Map<Order>(entity);
                 }
                 catch (Exception ex)

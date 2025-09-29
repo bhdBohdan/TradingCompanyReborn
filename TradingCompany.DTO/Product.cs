@@ -22,13 +22,15 @@ namespace TradingCompany.DTO
 
         public string Category { get; set; }
 
+        public User? User { get; set; }
+
         public DateTime? CreatedDate { get; set; }
 
         public DateTime? UpdatedAt { get; set; }
 
         public override string ToString()
         {
-            return $"{Id}: {ProductName} - {Category} - {Price:C} - {CreatedDate?.ToShortDateString()}";
+            return $"{Id}: {ProductName} - {Category} - {Price:C} - {CreatedDate?.ToShortDateString()} - {User?.Username}";
         }
     }
 }

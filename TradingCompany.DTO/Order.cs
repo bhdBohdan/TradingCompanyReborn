@@ -19,12 +19,18 @@ namespace TradingCompany.DTO
 
         public int Quantity { get; set; }
 
+        public virtual User? Buyer { get; set; }
+
+        public virtual Product? Product { get; set; }
+
         public DateTime? OrderedAt { get; set; }
 
         public override string ToString()
         {
-            return $"{Id}: Product {ProductId} ordered by User {BuyerId} at {OrderedAt?.ToShortDateString()} \n" +
-                $"\t Status: {Status}, Quantity bought {Quantity}";
+            return $"{Id}: Product {(Product?.ProductName ?? ProductId.ToString())} " +
+                $"ordered by User {(Buyer?.Username ?? BuyerId.ToString())} at {OrderedAt?.ToShortDateString() ?? "N/A"} \n" +
+                 $"\t Status: {Status}, Quantity bought {Quantity}";
+
         }
     }
 }

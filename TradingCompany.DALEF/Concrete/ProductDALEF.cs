@@ -9,6 +9,7 @@ using TradingCompany.DAL.Interfaces;
 using TradingCompany.DALEF.Concrete.ctx;
 using TradingCompany.DALEF;
 using TradingCompany.DTO;
+using Microsoft.EntityFrameworkCore;
 
 namespace TradingCompany.DALEF.Concrete
 {
@@ -81,7 +82,7 @@ namespace TradingCompany.DALEF.Concrete
             {
                 try
                 {
-                    var entity = ctx.Products.Find(id);
+                    var entity = ctx.Products.Include(p => p.User).FirstOrDefault(p => p.ProductId == id);
                     return _mapper.Map<Product>(entity);
                 }
                 catch (Exception ex)

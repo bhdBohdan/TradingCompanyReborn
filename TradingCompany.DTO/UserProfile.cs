@@ -18,6 +18,7 @@ namespace TradingCompany.DTO
         public string? Address { get; set; }
         public string? Phone { get; set; }
         public string? BankCardNumber { get; set; }
+        public byte[]? ProfilePicture { get; set; }
         public DateTime? UpdatedAt { get; set; }
 
         public override string ToString()

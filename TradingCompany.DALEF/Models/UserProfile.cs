@@ -37,6 +37,8 @@ public partial class UserProfile
     [Column(TypeName = "datetime")]
     public DateTime? UpdatedAt { get; set; }
 
+    public byte[]? ProfilePicture { get; set; }
+
     [ForeignKey("UserId")]
     [InverseProperty("UserProfile")]
     public virtual User User { get; set; } = null!;

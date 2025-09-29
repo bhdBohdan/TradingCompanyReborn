@@ -29,11 +29,11 @@ namespace TradingCompany.Console.AppMenu
             {
                
 
-                Console.WriteLine("1 - UserMenu");
-                Console.WriteLine("2 - CustomerMenu");
-                Console.WriteLine("3 - RoleMenu");
-                Console.WriteLine("4 - ProductMenu");
-                Console.WriteLine("5 - OrderMenu");
+                Console.WriteLine("1 - User Menu");
+                Console.WriteLine("2 - Profile menu");
+                Console.WriteLine("3 - Role Menu");
+                Console.WriteLine("4 - Product Menu");
+                Console.WriteLine("5 - Order Menu");
                 Console.WriteLine("q - Quit\n");
 
                 choice = Console.ReadLine()[0];

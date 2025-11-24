@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TradingCompany.DALEF.Models;
+using TradingCompany.DTO;
 
 namespace TradingCompany.DALEF.AutoMapper
 {
@@ -11,10 +13,8 @@ namespace TradingCompany.DALEF.AutoMapper
     {
         public UserProfileMap()
         {
-            CreateMap<TradingCompany.DALEF.Models.UserProfile, TradingCompany.DTO.UserProfile>()
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.ProfileId));
-            CreateMap<TradingCompany.DTO.UserProfile, TradingCompany.DALEF.Models.UserProfile>()
-                .ForMember(dest => dest.ProfileId, opt => opt.MapFrom(src => src.Id));
+            CreateMap<DTO.UserProfile, DALEF.Models.UserProfile>().ForMember(d => d.ProfileId, o => o.Ignore());
+            CreateMap<DALEF.Models.UserProfile, DTO.UserProfile>().ForMember(d => d.Id, o => o.MapFrom(s => s.ProfileId));
         }
     }
 }

@@ -106,5 +106,20 @@ namespace TradingCompany.DAL.Concrete
         {
             throw new NotImplementedException();
         }
+
+        public User GetUserByLogin(string username_or_email)
+        {
+            throw new NotImplementedException();
+        }
+
+        public User Register(User user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public User Login(string username_or_email, string password)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

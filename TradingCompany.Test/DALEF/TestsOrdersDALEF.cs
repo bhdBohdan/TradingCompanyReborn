@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TradingCompany.DALEF.Automapper;
 using TradingCompany.DALEF.AutoMapper;
 using TradingCompany.DALEF.Concrete;
 
@@ -28,6 +29,8 @@ namespace TradingCompany.Test.DALEF
 
             var configExpression = new MapperConfigurationExpression();
             configExpression.AddProfile<OrderMap>();
+            configExpression.AddProfile<ProductMap>();
+            configExpression.AddProfile<UserMap>();
 
             var loggerFactory = NullLoggerFactory.Instance;
             var mapperConfig = new MapperConfiguration(configExpression, loggerFactory);

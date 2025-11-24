@@ -77,8 +77,9 @@ namespace TradingCompany.DALEF.Concrete
         {
             using (var ctx = new TradingCompContext(_connStr))
             {
-                try { 
-                    var entity = ctx.UserProfiles.Find(id);
+                try
+                {
+                    var entity = ctx.UserProfiles.Where(e => e.UserId == id).FirstOrDefault();
                     return _mapper.Map<UserProfile>(entity);
                 }
                 catch (Exception ex)
@@ -100,15 +101,23 @@ namespace TradingCompany.DALEF.Concrete
                     var existingEntity = ctx.UserProfiles.Find(profile.Id);
                     if (existingEntity == null) throw new Exception("Non existing id");
 
-
                     existingEntity.FirstName = string.IsNullOrEmpty(profile.FirstName) ? existingEntity.FirstName : profile.FirstName;
                     existingEntity.LastName = string.IsNullOrEmpty(profile.LastName) ? existingEntity.LastName : profile.LastName;
                     existingEntity.Address = string.IsNullOrEmpty(profile.Address) ? existingEntity.Address : profile.Address;
                     existingEntity.Phone = string.IsNullOrEmpty(profile.Phone) ? existingEntity.Phone : profile.Phone;
                     existingEntity.Gender = string.IsNullOrEmpty(profile.Gender) ? existingEntity.Gender : profile.Gender;
-                    existingEntity.UpdatedAt = DateTime.Now;
-                    
 
+                    // Update BankCardNumber if provided (preserve existing when null/empty)
+                    // (uncomment / adjust if your DTO has this property)
+                    existingEntity.BankCardNumber = string.IsNullOrEmpty(profile.BankCardNumber) ? existingEntity.BankCardNumber : profile.BankCardNumber;
+
+                    // Update profile picture only when non-null and non-empty to avoid clearing existing image
+                    if (profile.ProfilePicture != null && profile.ProfilePicture.Length > 0)
+                    {
+                        existingEntity.ProfilePicture = profile.ProfilePicture;
+                    }
+
+                    existingEntity.UpdatedAt = DateTime.UtcNow;
 
                     //_mapper.Map(profile, existingEntity);
                     ctx.SaveChanges();

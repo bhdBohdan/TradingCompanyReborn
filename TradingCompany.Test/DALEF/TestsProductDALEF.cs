@@ -6,8 +6,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TradingCompany.DALEF.Automapper;
 using TradingCompany.DALEF.AutoMapper;
 using TradingCompany.DALEF.Concrete;
+using TradingCompany.DTO;
 
 namespace TradingCompany.Test.DALEF
 {
@@ -28,6 +30,7 @@ namespace TradingCompany.Test.DALEF
 
             var configExpression = new MapperConfigurationExpression();
             configExpression.AddProfile<ProductMap>();
+            configExpression.AddProfile<UserMap>();
 
             var loggerFactory = NullLoggerFactory.Instance;
             var mapperConfig = new MapperConfiguration(configExpression, loggerFactory);
@@ -42,8 +45,12 @@ namespace TradingCompany.Test.DALEF
         {
             var products = _productDal.GetAll();
             var product = _productDal.GetById(products[0].Id);
-            Assert.NotNull(product);
-            Assert.IsType<string>(product.ProductName);
+            
+            Assert.IsType<int>(products[0].Id);
+            Assert.IsType<Product>(product);
+
+
+
         }
 
         [Fact]

@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradingCompany.DALEF", "Tra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradingCompany.Test", "TradingCompany.Test\TradingCompany.Test.csproj", "{B659E5DF-E704-43CA-A48B-D8E8AFDCBC59}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradingCompany.BLL", "TradingCompany.BLL\TradingCompany.BLL.csproj", "{C0D53169-F51F-4DFA-AAF4-FDC2ECA459DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradingCompany.WPF2", "TradingCompany.WPF2\TradingCompany.WPF2.csproj", "{3FD75BE2-236B-4104-B06C-A2ED9444A5C7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{B659E5DF-E704-43CA-A48B-D8E8AFDCBC59}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B659E5DF-E704-43CA-A48B-D8E8AFDCBC59}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B659E5DF-E704-43CA-A48B-D8E8AFDCBC59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0D53169-F51F-4DFA-AAF4-FDC2ECA459DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0D53169-F51F-4DFA-AAF4-FDC2ECA459DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0D53169-F51F-4DFA-AAF4-FDC2ECA459DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0D53169-F51F-4DFA-AAF4-FDC2ECA459DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FD75BE2-236B-4104-B06C-A2ED9444A5C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FD75BE2-236B-4104-B06C-A2ED9444A5C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FD75BE2-236B-4104-B06C-A2ED9444A5C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FD75BE2-236B-4104-B06C-A2ED9444A5C7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

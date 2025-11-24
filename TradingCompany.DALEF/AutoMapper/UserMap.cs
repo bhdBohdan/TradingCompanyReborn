@@ -9,15 +9,18 @@ namespace TradingCompany.DALEF.Automapper
     {
         public UserMap()
         {
-            CreateMap<TradingCompany.DALEF.Models.User, TradingCompany.DTO.User>()
-                .ForMember(dest => dest.RegistrationDate, opt => opt.MapFrom(src => src.CreatedAt))
-                .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.UpdatedAt))
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.UserId));
+           
+            CreateMap<DTO.User, DALEF.Models.User>()
+                .ForMember(d => d.Roles, opt => opt.Ignore())
+                .ForMember(d => d.UserProfile, opt => opt.Ignore())
+                .ForMember(d => d.UserId, opt => opt.MapFrom(s => s.Id)); // if needed
 
-            CreateMap<TradingCompany.DTO.User, TradingCompany.DALEF.Models.User>()
-                .ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => src.RegistrationDate))
-                .ForMember(dest => dest.UpdatedAt, opt => opt.MapFrom(src => src.UpdatedAt))
-                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.Id));
+            CreateMap<DALEF.Models.User, DTO.User>()
+                .ForMember(d => d.Id, opt => opt.MapFrom(s => s.UserId))
+                .ForMember(d => d.Roles, opt => opt.MapFrom(s => s.Roles))
+                .ForMember(d => d.RegistrationDate, opt => opt.MapFrom(s => s.CreatedAt));
+
+
         }
     }
 }

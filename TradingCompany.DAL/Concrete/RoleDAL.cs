@@ -14,6 +14,11 @@ namespace TradingCompany.DAL.Concrete
     {
         public RoleDAL(string connStr, IMapper mapper) : base(connStr, mapper) { }
 
+        public bool AddRoleToUser(int userId, RoleType roleType)
+        {
+            throw new NotImplementedException();
+        }
+
         public override Role Create(Role entity)
         {
             throw new NotImplementedException();
@@ -30,6 +35,11 @@ namespace TradingCompany.DAL.Concrete
         }
 
         public override Role GetById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool RemoveRoleFromUser(int userId, RoleType roleType)
         {
             throw new NotImplementedException();
         }

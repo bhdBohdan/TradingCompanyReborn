@@ -7,8 +7,11 @@ using TradingCompany.DTO;
 
 namespace TradingCompany.DAL.Interfaces
 {
-    public interface IUserDAL: IGenericDAL<User>
+    public interface IUserDAL: IGenericDAL<DTO.User>
     {
+        DTO.User GetUserByLogin(string username_or_email);
+        DTO.User Register(DTO.User user);
+        DTO.User Login(string username_or_email, string password);
 
     }
 }

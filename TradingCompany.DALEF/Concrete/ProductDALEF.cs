@@ -83,6 +83,10 @@ namespace TradingCompany.DALEF.Concrete
                 try
                 {
                     var entity = ctx.Products.Include(p => p.User).FirstOrDefault(p => p.ProductId == id);
+
+                    if (entity == null)
+                        return null;
+
                     return _mapper.Map<Product>(entity);
                 }
                 catch (Exception ex)

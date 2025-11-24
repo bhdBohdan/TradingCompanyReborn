@@ -19,6 +19,11 @@ namespace TradingCompany.DALEF.Concrete
 
         }
 
+        public void AddRoleToUser(int userId, RoleType roleType)
+        {
+            throw new NotImplementedException();
+        }
+
         public override Role Create(Role role)
         {
             using (var ctx = new TradingCompContext(_connStr))
@@ -96,6 +101,11 @@ namespace TradingCompany.DALEF.Concrete
             }
         }
 
+        public bool RemoveRoleFromUser(int userId, RoleType roleType)
+        {
+            throw new NotImplementedException();
+        }
+
         public override Role Update(Role entity)
         {
             using (var ctx = new TradingCompContext(_connStr))
@@ -125,5 +135,52 @@ namespace TradingCompany.DALEF.Concrete
             }
         }
 
+        bool IRoleDAL.AddRoleToUser(int userId, RoleType roleType)
+        {
+            using (var ctx = new TradingCompContext(_connStr))
+            {
+                try
+                {
+                    var user = ctx.Users.Find(userId);
+                    if (user == null) return false;
+
+                    var role = ctx.Roles.Find((int)roleType);
+                    if (role == null) return false;
+
+                    user.Roles.Add(role);
+                    ctx.SaveChanges();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error adding Role to User: {ex.Message}");
+                    return false;
+                }
+            }
+        }
+
+        bool IRoleDAL.RemoveRoleFromUser(int userId, RoleType roleType)
+        {
+            using (var ctx = new TradingCompContext(_connStr))
+            {
+                try
+                {
+                    var user = ctx.Users.Find(userId);
+                    if (user == null) return false;
+
+                    var role = ctx.Roles.Find((int)roleType);
+                    if (role == null) return false;
+
+                    user.Roles.Remove(role);
+                    ctx.SaveChanges();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error removing Role from User: {ex.Message}");
+                    return false;
+                }
+            }
+        }
     }
 }

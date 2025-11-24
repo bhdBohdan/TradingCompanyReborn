@@ -1,0 +1,64 @@
+﻿<Window x:Class="TradingCompany.WPF2.Windows.Login"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TradingCompany.WPF2.Windows"
+        mc:Ignorable="d"
+        Title="Login" Height="250" Width="300">
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="4*"/>
+      <ColumnDefinition Width="11*"/>
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+
+    <StackPanel VerticalAlignment="Center" Grid.ColumnSpan="2">
+      <TextBlock Text="Trading Company" HorizontalAlignment="Center" FontSize="20" />
+    </StackPanel>
+
+    <Grid Grid.Row="1" Grid.ColumnSpan="2" >
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="*" />
+      </Grid.RowDefinitions>
+
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="Auto" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+
+      <TextBlock Grid.Row="0" Grid.Column="0" Margin="0,10,0,0">Username</TextBlock>
+      <TextBox Grid.Row="0" Grid.Column="1"
+           Margin="10,10,10,0">
+        <TextBox.Text>
+          <Binding Path="Username" UpdateSourceTrigger="PropertyChanged" ValidatesOnDataErrors="True" ValidatesOnExceptions="True">
+            <Binding.ValidationRules>
+              <ExceptionValidationRule />
+              <DataErrorValidationRule />
+            </Binding.ValidationRules>
+          </Binding>
+        </TextBox.Text>
+      </TextBox>
+
+      <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,10,0,0" >Password</TextBlock>
+      <PasswordBox Grid.Row="1" Grid.Column="1" Margin="10,10,10,0" PasswordChanged="PasswordBox_PasswordChanged" />
+
+      <TextBlock Grid.Row="2" Grid.ColumnSpan="2" Text="{Binding Error}"
+             Foreground="Red"
+             Margin="10,6,10,0"
+             FontSize="12" />
+
+      <StackPanel Grid.Row="3" Grid.ColumnSpan="2" Orientation="Horizontal" Height="80" HorizontalAlignment="Center">
+        <Button Width="100" Height="40" Content="Cancel" Margin="0,0,20,0" Command="{Binding CloseCommand}"></Button>
+        <Button Width="100" Height="40" Content="Login" Command="{Binding LoginCommand}" IsDefault="True"/>
+        <Button Width="100" Height="40" Content="Register" Margin="20,0,0,0" Click="RegisterButton_Click"/>
+      </StackPanel>
+    </Grid>
+  </Grid>
+</Window>

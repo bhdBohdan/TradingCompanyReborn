@@ -94,24 +94,30 @@ namespace TradingCompany.WPF2
             services.AddTransient<IUserProfileDAL>(sp => new UserProfileDALEF(connStr, sp.GetRequiredService<IMapper>()));
             services.AddTransient<IRoleDAL>(sp => new RoleDALEF(connStr, sp.GetRequiredService<IMapper>()));
 
-           // services.AddTransient<IMovieManager, MovieManager>();
+            // Business layer registrations
             services.AddTransient<IAuthManager, AuthManager>();
             services.AddTransient<IProfileManager, ProfileManager>();
             services.AddTransient<IRoleManager, RoleManager>();
 
-            // Register windows so they can be resolved with DI
-            //services.AddTransient<MovieListViewModel>();
+            // Register product manager so DI can resolve IProductManager (fix for the exception)
+            services.AddTransient<IProductManager, ProductManager>();
+
+            // Register viewmodels (ensure ProductsListViewModel is registered)
             services.AddTransient<LoginViewModel>();
-	        services.AddTransient<RegisterViewModel>();
+            services.AddTransient<RegisterViewModel>();
             services.AddTransient<UserProfileViewModel>();
-            //services.AddTransient<MovieDetailsSimpleViewModel>();
+            services.AddTransient<ProductsListViewModel>();
+            services.AddTransient<NewProductViewModel>();
+            services.AddTransient<ProductDetailsViewModel>();
 
-
+            // Register windows
             services.AddTransient<HomePage>();
             services.AddTransient<Login>();
             services.AddTransient<Register>();
             services.AddTransient<UserProfile>();
-            //services.AddTransient<ProfilePage>();
+            services.AddTransient<NewProduct>();
+            services.AddTransient<ProductDetails>();
+
 
             return services.BuildServiceProvider();
         }

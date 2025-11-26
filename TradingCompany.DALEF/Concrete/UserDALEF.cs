@@ -64,7 +64,7 @@ namespace TradingCompany.DALEF.Concrete
             {
                 try
                 {
-                    var user = ctx.Users.Find(userId);
+                    var user = ctx.Users.Include(u=> u.Roles).FirstOrDefault(u => u.UserId == userId);
                     if (user == null) return null;
                     //use mapper here too
                     return _mapper.Map<DTO.User>(user);
@@ -78,6 +78,7 @@ namespace TradingCompany.DALEF.Concrete
             }
 
         }
+
 
         public override DTO.User Create(DTO.User user)
         {
@@ -215,7 +216,6 @@ namespace TradingCompany.DALEF.Concrete
                             Phone = "None",
                             Address = "Unknown",
                             Gender = "Other",
-                            // leave UpdatedAt null so any CHECK constraints are satisfied
                             UpdatedAt = null
                         };
                         context.UserProfiles.Add(profileEntity);
@@ -239,7 +239,7 @@ namespace TradingCompany.DALEF.Concrete
             {
                 try
                 {
-                    var user = context.Users.SingleOrDefault(u => u.Username == username_or_email || u.Email == username_or_email);
+                    var user = context.Users.Include(u => u.Roles).SingleOrDefault(u => u.Username == username_or_email || u.Email == username_or_email);
                     if (user == null) return null;
 
                     byte[] storedHash = Convert.FromBase64String(user.PasswordHash);

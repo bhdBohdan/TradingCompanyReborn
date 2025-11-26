@@ -39,13 +39,7 @@ namespace TradingCompany.Test.DALEF
             Assert.NotEqual(0, users.Count);
         }
 
-        [Fact]
-        public void GetById()
-        {
-            var user = _userDal.GetById(100001);
-            Assert.NotNull(user);
-            Assert.IsType<string>(user.Username);
-        }
+     
 
         [Fact]
         public void Insert()

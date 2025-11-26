@@ -65,7 +65,7 @@ namespace TradingCompany.DALEF.Concrete
             {
                 try
                 {
-                    var entities = ctx.Products.OrderBy(r => r.ProductId).ToList();
+                    var entities = ctx.Products.Include(p=>p.User).OrderBy(r => r.ProductId).ToList();
                     return _mapper.Map<List<Product>>(entities);
                 }
                 catch (Exception ex)

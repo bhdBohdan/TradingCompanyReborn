@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -141,11 +142,13 @@ namespace TradingCompany.DALEF.Concrete
             {
                 try
                 {
-                    var user = ctx.Users.Find(userId);
+                    var user = ctx.Users.Include(u => u.Roles).FirstOrDefault(u => u.UserId == userId);
                     if (user == null) return false;
 
                     var role = ctx.Roles.Find((int)roleType);
                     if (role == null) return false;
+
+                    if (user.Roles.Any(r => r.RoleId == role.RoleId)) return true; // already has role
 
                     user.Roles.Add(role);
                     ctx.SaveChanges();
@@ -165,13 +168,16 @@ namespace TradingCompany.DALEF.Concrete
             {
                 try
                 {
-                    var user = ctx.Users.Find(userId);
+                    var user = ctx.Users.Include(u => u.Roles).FirstOrDefault(u => u.UserId == userId);
                     if (user == null) return false;
 
                     var role = ctx.Roles.Find((int)roleType);
                     if (role == null) return false;
 
-                    user.Roles.Remove(role);
+                    var existing = user.Roles.FirstOrDefault(r => r.RoleId == role.RoleId);
+                    if (existing == null) return true; // already removed / not present
+
+                    user.Roles.Remove(existing);
                     ctx.SaveChanges();
                     return true;
                 }

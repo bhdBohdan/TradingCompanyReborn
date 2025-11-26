@@ -3,30 +3,80 @@
        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-       xmlns:local="clr-namespace:TradingCompany.WPF2.Windows"
+       xmlns:conv="clr-namespace:TradingCompany.WPF2.Converters"
        mc:Ignorable="d"
        Title="HomePage" Height="450" Width="798">
+
+    <Window.Resources>
+        <conv:NullToVisibilityConverter x:Key="NullToVisibility" />
+    </Window.Resources>
+
     <Grid Margin="8,8,26,8">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="0,0,0,8" VerticalAlignment="Center" HorizontalAlignment="Left">
             <TextBlock Text="HomePage:" FontSize="24" Height="53" Width="121"/>
-
         </StackPanel>
 
-        <Button Click="ProfileButton_Click" Margin="560,3,79,8" Width="130" >
+        <!-- Profile button visible only when logged in -->
+        <Button Click="ProfileButton_Click" Margin="560,3,79,8" Width="130"
+                Visibility="{Binding CurrentUser, Converter={StaticResource NullToVisibility}}">
             <StackPanel Orientation="Horizontal" Width="130">
                 <Image Source="{Binding ProfileImage}" Width="32" Height="32" />
                 <TextBlock Text="{Binding CurrentUser.Username}" Margin="8,0,0,0" VerticalAlignment="Center"/>
-                
-                   
-                
             </StackPanel>
         </Button>
-        <Button Content="Login" Click="LoginButton_Click" HorizontalAlignment="Right" Margin="0,5,224,10" Width="130" />
 
+        <!-- Login button visible only when logged out -->
+        <Button Content="Login" Click="LoginButton_Click" HorizontalAlignment="Right" Margin="0,5,224,10" Width="130"
+                Visibility="{Binding CurrentUser, Converter={StaticResource NullToVisibility}, ConverterParameter=Invert}" />
+
+        <!-- Message shown when logged out -->
+        <TextBlock Grid.Row="1" Text="Login to see the products"
+                   Visibility="{Binding CurrentUser, Converter={StaticResource NullToVisibility}, ConverterParameter=Invert}"
+                   FontStyle="Italic" Margin="0,8,0,8"/>
+
+        <Button Content="Add Product" Click="AddProductButton_Click"
+                Grid.Row="1"
+                Visibility="{Binding CurrentUser, Converter={StaticResource NullToVisibility}}"
+                HorizontalAlignment="Left" Margin="21,6,0,6" Width="100" RenderTransformOrigin="0.16,-0.015"/>
+
+        <!-- Products list (DataContext will be set in code-behind) -->
+        <ListView x:Name="ProductsListView" Grid.Row="2" Margin="0,8,0,0"
+                  ItemsSource="{Binding ProductsView}"
+                  SelectedItem="{Binding SelectedProduct, Mode=TwoWay}"
+                  MouseDoubleClick="ProductsListView_MouseDoubleClick" 
+                  Visibility="{Binding DataContext.CurrentUser, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource NullToVisibility}}" RenderTransformOrigin="0.5,0.5">
+            <ListView.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="0.124"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </ListView.RenderTransform>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Product" DisplayMemberBinding="{Binding ProductName}" Width="240"/>
+                    <GridViewColumn Header="Price" DisplayMemberBinding="{Binding Price}" Width="80"/>
+                    <GridViewColumn Header="Category" DisplayMemberBinding="{Binding Category}" Width="120"/>
+                    <GridViewColumn Header="Username" DisplayMemberBinding="{Binding User.Username}" Width="120"/>
+                    <GridViewColumn Header="Created Date" DisplayMemberBinding="{Binding CreatedDate}" Width="120"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,10" Grid.Row="2">
+            <Button Content="GiveAdminRole" Width="110" Margin="4,0"
+            Click="GiveAdminRoleButton_Click"
+            Visibility="{Binding CurrentUser, Converter={StaticResource NullToVisibility}}"/>
+            <Button Content="RemoveAdminRole" Width="110" Margin="4,0"
+            Click="RemoveAdminRoleButton_Click"
+            Visibility="{Binding CurrentUser, Converter={StaticResource NullToVisibility}}"/>
+        </StackPanel>
     </Grid>
 </Window>

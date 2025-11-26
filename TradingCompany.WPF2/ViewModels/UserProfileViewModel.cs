@@ -62,6 +62,7 @@ namespace TradingCompany.WPF2.ViewModels
                 Id = _session.CurrentUser.Id,
                 Username = _session.CurrentUser.Username,
                 Email = _session.CurrentUser.Email,
+                Roles = _session.CurrentUser.Roles.ToList(),
                 RegistrationDate = _session.CurrentUser.RegistrationDate,
                 UpdatedAt = _session.CurrentUser.UpdatedAt,
                 PasswordHash = _session.CurrentUser.PasswordHash,
@@ -105,6 +106,11 @@ namespace TradingCompany.WPF2.ViewModels
 
         public string? Username => _editedUser?.Username;
         public string? Email => _editedUser?.Email;
+
+        public string Roles =>
+     _editedUser?.Roles is null
+         ? string.Empty
+         : string.Join(", ", _editedUser.Roles.Select(r => r.RoleName));
 
         public string? FirstName
         {
@@ -214,35 +220,15 @@ namespace TradingCompany.WPF2.ViewModels
 
         private void Logout()
         {
-            // clear session data
             _session.CurrentUser = null;
             _session.Profile = null;
 
-            // Close the profile window
+          
             Close?.Invoke();
-            //// Close all open windows first (best-effort).
-            //// Use ToList() because closing mutates the Windows collection.
-            //var windows = Application.Current.Windows.Cast<Window>().ToList();
-            //foreach (var w in windows)
-            //{
-            //    try
-            //    {
-            //        w.Close();
-            //    }
-            //    catch
-            //    {
-            //        // ignore - best effort
-            //    }
-            //}
 
-            //// Show login as a modal dialog so Login's code can safely set DialogResult.
-            //var loginWin = App.Services?.GetRequiredService<Login>();
-            //if (loginWin != null)
-            //{
-            //    // ShowDialog will block until the login window is closed.
-            //    // App.ShutdownMode is OnExplicitShutdown so closing windows above won't exit the app.
-            //    loginWin.ShowDialog();
-            //}
+            var loginWindow = App.Services!.GetRequiredService<Windows.Login>();
+            loginWindow.Show();
+
         }
 
 
@@ -264,6 +250,8 @@ namespace TradingCompany.WPF2.ViewModels
         // ICloseable
         public Action Close { get; set; }
         
+        // add this to the UserProfileViewModel class (e.g. near other public properties)
+        public IList<string> GenderOptions { get; } = new List<string> { "Male", "Female", "Other" };
 
         // Simple relay
         private class RelayCommand : ICommand

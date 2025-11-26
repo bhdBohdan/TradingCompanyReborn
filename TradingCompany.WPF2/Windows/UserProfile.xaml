@@ -53,6 +53,8 @@
                 <TextBlock Text="{Binding Username}" />
                 <TextBlock FontSize="12" Foreground="Gray" Margin="0,8,0,0" Text="Email"/>
                 <TextBlock Text="{Binding Email}" TextWrapping="Wrap"/>
+                <TextBlock FontSize="12" Foreground="Gray" Margin="0,8,0,0" Text="Roles"/>
+                <TextBlock Text="{Binding Roles}" TextWrapping="Wrap"/>
             </StackPanel>
         </StackPanel>
 
@@ -95,8 +97,10 @@
                  Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}" />
 
                 <TextBlock Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Text="Gender:"/>
-                <TextBox Grid.Row="4" Grid.Column="1" Style="{StaticResource EditableWhenEditingTextBoxStyle}"
-                 Text="{Binding Gender, UpdateSourceTrigger=PropertyChanged}" />
+                <ComboBox Grid.Row="4" Grid.Column="1"
+                          ItemsSource="{Binding GenderOptions}"
+                          SelectedItem="{Binding Gender, UpdateSourceTrigger=PropertyChanged}"
+                          IsEnabled="{Binding IsEditing}" />
 
                 <TextBlock Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" Text="Phone:"/>
                 <TextBox Grid.Row="6" Grid.Column="1" Style="{StaticResource EditableWhenEditingTextBoxStyle}"

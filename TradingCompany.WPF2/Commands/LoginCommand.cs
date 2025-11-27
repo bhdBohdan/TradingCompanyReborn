@@ -22,7 +22,7 @@ internal class LoginCommand : ICommand
         if (user != null)
         {
             // LoginViewModel.Login already sets session and raises LoginSuccessful
-            // but keep defensive invocation if needed:
+             
             _vm.LoginSuccessful?.Invoke();
         }
         else

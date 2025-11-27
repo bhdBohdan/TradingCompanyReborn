@@ -6,10 +6,12 @@ using System.Windows;
 using System.Windows.Input;
 using TradingCompany.BLL.Interfaces;
 using TradingCompany.DTO;
+using TradingCompany.WPF.Commands;
+using TradingCompany.WPF2.Services;
 
 namespace TradingCompany.WPF2.ViewModels
 {
-    public class ProductDetailsViewModel : INotifyPropertyChanged
+    public class ProductDetailsViewModel : INotifyPropertyChanged, IDataErrorInfo
     {
         private readonly IProductManager _productManager;
         private readonly ICurrentUserService _session;
@@ -23,7 +25,6 @@ namespace TradingCompany.WPF2.ViewModels
             _productManager = productManager ?? throw new ArgumentNullException(nameof(productManager));
             _session = session ?? throw new ArgumentNullException(nameof(session));
 
-            // copy values for editing
             ProductId = _original.Id;
             ProductName = _original.ProductName;
             Category = _original.Category;
@@ -33,19 +34,17 @@ namespace TradingCompany.WPF2.ViewModels
             var currentUser = _session.CurrentUser;
             var isAdminOrMod = currentUser?.Roles?.Any(r => r.Id == (int)RoleType.ADMIN || r.Id == (int)RoleType.MODERATOR) ?? false;
             CanEdit = isAdminOrMod || (currentUser != null && _original.UserId == currentUser.Id);
-            CanDelete = CanEdit; // same rule for both
+            CanDelete = CanEdit;
 
-            SaveCommand = new RelayCommand(_ => Save(), _ => CanEdit && IsDirty);
+            SaveCommand = new RelayCommand(_ => Save(), _ => CanEdit && IsDirty && string.IsNullOrEmpty(Error));
             DeleteCommand = new RelayCommand(_ => Delete(), _ => CanDelete);
             CancelCommand = new RelayCommand(_ => Cancel());
         }
 
-        // readonly ID
         public int ProductId { get; }
 
-        // editable properties bound from XAML
         private string _productName = string.Empty;
-        public string ProductName { get => _productName; set { if (_productName == value) return; _productName = value; OnPropertyChanged(); MarkDirty(); } }
+        public string ProductName { get => _productName; set { if (_productName == value) return; _productName = value; OnPropertyChanged(); MarkDirty(); OnPropertyChanged(nameof(Error)); } }
 
         private string _category = string.Empty;
         public string Category { get => _category; set { if (_category == value) return; _category = value; OnPropertyChanged(); MarkDirty(); } }
@@ -54,7 +53,7 @@ namespace TradingCompany.WPF2.ViewModels
         public string? Description { get => _description; set { if (_description == value) return; _description = value; OnPropertyChanged(); MarkDirty(); } }
 
         private decimal _price;
-        public decimal Price { get => _price; set { if (_price == value) return; _price = value; OnPropertyChanged(); MarkDirty(); } }
+        public decimal Price { get => _price; set { if (_price == value) return; _price = value; OnPropertyChanged(); MarkDirty(); OnPropertyChanged(nameof(Error)); } }
 
         public bool CanEdit { get; }
         public bool CanDelete { get; }
@@ -72,7 +71,6 @@ namespace TradingCompany.WPF2.ViewModels
         {
             try
             {
-                // copy edited values back to original DTO and persist
                 _original.ProductName = ProductName;
                 _original.Category = Category;
                 _original.Description = Description;
@@ -118,21 +116,34 @@ namespace TradingCompany.WPF2.ViewModels
             }
         }
 
-        private void Cancel()
+        private void Cancel() => CloseAction?.Invoke();
+
+        #region IDataErrorInfo
+        public string Error
         {
-            CloseAction?.Invoke();
+            get
+            {
+                var e = this[nameof(ProductName)];
+                if (!string.IsNullOrEmpty(e)) return e;
+                e = this[nameof(Price)];
+                if (!string.IsNullOrEmpty(e)) return e;
+                return string.Empty;
+            }
         }
 
-        // minimal RelayCommand
-        private class RelayCommand : ICommand
+        public string this[string columnName]
         {
-            private readonly Action<object?> _exec;
-            private readonly Predicate<object?>? _can;
-            public RelayCommand(Action<object?> exec, Predicate<object?>? can = null) { _exec = exec; _can = can; }
-            public event EventHandler? CanExecuteChanged { add { CommandManager.RequerySuggested += value; } remove { CommandManager.RequerySuggested -= value; } }
-            public bool CanExecute(object? parameter) => _can?.Invoke(parameter) ?? true;
-            public void Execute(object? parameter) => _exec(parameter);
+            get
+            {
+                return columnName switch
+                {
+                    nameof(ProductName) => DataValidators.ValidateProductName(ProductName),
+                    nameof(Price) => DataValidators.ValidatePriceDecimal(Price),
+                    _ => string.Empty
+                };
+            }
         }
+        #endregion
 
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler? PropertyChanged;

@@ -109,6 +109,7 @@ namespace TradingCompany.WPF2
             services.AddTransient<ProductsListViewModel>();
             services.AddTransient<NewProductViewModel>();
             services.AddTransient<ProductDetailsViewModel>();
+            services.AddTransient<HomePageViewModel>();
 
             // Register windows
             services.AddTransient<HomePage>();

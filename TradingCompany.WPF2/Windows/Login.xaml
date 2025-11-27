@@ -3,62 +3,161 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:TradingCompany.WPF2.Windows"
         mc:Ignorable="d"
-        Title="Login" Height="250" Width="300">
-  <Grid>
-    <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="4*"/>
-      <ColumnDefinition Width="11*"/>
-    </Grid.ColumnDefinitions>
-    <Grid.RowDefinitions>
-      <RowDefinition Height="Auto" />
-      <RowDefinition Height="*" />
-    </Grid.RowDefinitions>
+        Title="Login" Height="450" Width="700"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Background="White"
+        FocusManager.FocusedElement="{Binding ElementName=UsernameBox}">
 
-    <StackPanel VerticalAlignment="Center" Grid.ColumnSpan="2">
-      <TextBlock Text="Trading Company" HorizontalAlignment="Center" FontSize="20" />
-    </StackPanel>
+    <Window.Resources>
+        <SolidColorBrush x:Key="PrimaryColor" Color="#4A90E2"/>
+        <SolidColorBrush x:Key="PrimaryDarkColor" Color="#357ABD"/>
+        <SolidColorBrush x:Key="TextGray" Color="#7F8C8D"/>
 
-    <Grid Grid.Row="1" Grid.ColumnSpan="2" >
-      <Grid.RowDefinitions>
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="*" />
-      </Grid.RowDefinitions>
+        <Style TargetType="{x:Type Control}" x:Key="InputStyle">
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="BorderThickness" Value="0,0,0,1"/>
+            <Setter Property="BorderBrush" Value="#E0E0E0"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Control">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <ScrollViewer x:Name="PART_ContentHost"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="BorderBrush" Value="{StaticResource PrimaryColor}"/>
+                            </Trigger>
+                            <Trigger Property="IsKeyboardFocused" Value="True">
+                                <Setter Property="BorderBrush" Value="{StaticResource PrimaryColor}"/>
+                                <Setter Property="BorderThickness" Value="0,0,0,2"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="Auto" />
-        <ColumnDefinition Width="*" />
-      </Grid.ColumnDefinitions>
+        <Style x:Key="LoginBtn" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource PrimaryColor}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="15"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="25">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{StaticResource PrimaryDarkColor}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
-      <TextBlock Grid.Row="0" Grid.Column="0" Margin="0,10,0,0">Username</TextBlock>
-      <TextBox Grid.Row="0" Grid.Column="1"
-           Margin="10,10,10,0">
-        <TextBox.Text>
-          <Binding Path="Username" UpdateSourceTrigger="PropertyChanged" ValidatesOnDataErrors="True" ValidatesOnExceptions="True">
-            <Binding.ValidationRules>
-              <ExceptionValidationRule />
-              <DataErrorValidationRule />
-            </Binding.ValidationRules>
-          </Binding>
-        </TextBox.Text>
-      </TextBox>
+        <Style x:Key="LinkBtn" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{StaticResource TextGray}"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Foreground" Value="{StaticResource PrimaryColor}"/>
+                                <Setter Property="TextBlock.TextDecorations" Value="Underline"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
 
-      <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,10,0,0" >Password</TextBlock>
-      <PasswordBox Grid.Row="1" Grid.Column="1" Margin="10,10,10,0" PasswordChanged="PasswordBox_PasswordChanged" />
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="260"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-      <TextBlock Grid.Row="2" Grid.ColumnSpan="2" Text="{Binding Error}"
-             Foreground="Red"
-             Margin="10,6,10,0"
-             FontSize="12" />
+        <Border Grid.Column="0">
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#4A90E2" Offset="0"/>
+                    <GradientStop Color="#8E44AD" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
 
-      <StackPanel Grid.Row="3" Grid.ColumnSpan="2" Orientation="Horizontal" Height="80" HorizontalAlignment="Center">
-        <Button Width="100" Height="40" Content="Cancel" Margin="0,0,20,0" Command="{Binding CloseCommand}"></Button>
-        <Button Width="100" Height="40" Content="Login" Command="{Binding LoginCommand}" IsDefault="True"/>
-        <Button Width="100" Height="40" Content="Register" Margin="20,0,0,0" Click="RegisterButton_Click"/>
-      </StackPanel>
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock Text="Welcome Back" FontSize="24" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" Margin="20,0"/>
+                <TextBlock Text="Sign in to continue to your dashboard." FontSize="14" Foreground="#DDD" HorizontalAlignment="Center" Margin="20,10,20,0" TextAlignment="Center" TextWrapping="Wrap"/>
+            </StackPanel>
+        </Border>
+
+        <Grid Grid.Column="1" Margin="50">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" Margin="0,0,0,30">
+                <TextBlock Text="Login" FontSize="32" FontWeight="Bold" Foreground="#333"/>
+                <TextBlock Text="Please enter your details." Foreground="#AAA" Margin="0,5,0,0"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="1" VerticalAlignment="Top">
+
+                <TextBlock Text="USERNAME" FontSize="10" FontWeight="Bold" Foreground="#AAA" Margin="0,0,0,5"/>
+                <TextBox x:Name="UsernameBox" Style="{StaticResource InputStyle}" Margin="0,0,0,25">
+                    <TextBox.Text>
+                        <Binding Path="Username" UpdateSourceTrigger="PropertyChanged" ValidatesOnDataErrors="True" ValidatesOnExceptions="True">
+                            <Binding.ValidationRules>
+                                <ExceptionValidationRule />
+                                <DataErrorValidationRule />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
+                </TextBox>
+
+                <TextBlock Text="PASSWORD" FontSize="10" FontWeight="Bold" Foreground="#AAA" Margin="0,0,0,5"/>
+                <PasswordBox PasswordChanged="PasswordBox_PasswordChanged" Style="{StaticResource InputStyle}" Margin="0,0,0,10"/>
+
+                <TextBlock Text="{Binding Error}" Foreground="#E74C3C" TextWrapping="Wrap" Margin="0,10,0,0" MinHeight="20"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="2" Margin="0,20,0,0">
+
+                <Button Content="LOG IN" Command="{Binding LoginCommand}" IsDefault="True" Style="{StaticResource LoginBtn}" Height="50" Margin="0,0,0,20"/>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Content="Cancel" Command="{Binding CloseCommand}" Style="{StaticResource LinkBtn}" HorizontalAlignment="Left"/>
+
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <TextBlock Text="New here?" Foreground="#AAA" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                        <Button Content="Create Account" Click="RegisterButton_Click" Style="{StaticResource LinkBtn}" FontWeight="Bold" Foreground="{StaticResource PrimaryColor}"/>
+                    </StackPanel>
+                </Grid>
+
+            </StackPanel>
+        </Grid>
     </Grid>
-  </Grid>
 </Window>

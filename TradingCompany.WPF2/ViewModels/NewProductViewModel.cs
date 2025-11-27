@@ -5,10 +5,12 @@ using System.Windows;
 using System.Windows.Input;
 using TradingCompany.BLL.Interfaces;
 using TradingCompany.DTO;
+using TradingCompany.WPF.Commands;
+using TradingCompany.WPF2.Services;
 
 namespace TradingCompany.WPF2.ViewModels
 {
-    public class NewProductViewModel : INotifyPropertyChanged, TradingCompany.WPF2.Interfaces.ICloseable
+    public class NewProductViewModel : INotifyPropertyChanged, TradingCompany.WPF2.Interfaces.ICloseable, IDataErrorInfo
     {
         private readonly IProductManager _productManager;
         private readonly ICurrentUserService _session;
@@ -24,16 +26,16 @@ namespace TradingCompany.WPF2.ViewModels
 
         // simple properties bound from XAML
         private string _productName = string.Empty;
-        public string ProductName { get => _productName; set { if (_productName == value) return; _productName = value; OnPropertyChanged(); } }
+        public string ProductName { get => _productName; set { if (_productName == value) return; _productName = value; OnPropertyChanged(); OnPropertyChanged(nameof(Error)); } }
 
         private string _category = string.Empty;
-        public string Category { get => _category; set { if (_category == value) return; _category = value; OnPropertyChanged(); } }
+        public string Category { get => _category; set { if (_category == value) return; _category = value; OnPropertyChanged(); OnPropertyChanged(nameof(Error)); } }
 
         private string _description = string.Empty;
         public string Description { get => _description; set { if (_description == value) return; _description = value; OnPropertyChanged(); } }
 
         private string _priceText = string.Empty;
-        public string PriceText { get => _priceText; set { if (_priceText == value) return; _priceText = value; OnPropertyChanged(); } }
+        public string PriceText { get => _priceText; set { if (_priceText == value) return; _priceText = value; OnPropertyChanged(); OnPropertyChanged(nameof(Error)); } }
 
         public ICommand SaveCommand { get; }
         public ICommand CancelCommand { get; }
@@ -43,9 +45,7 @@ namespace TradingCompany.WPF2.ViewModels
 
         private bool CanSave()
         {
-            return !string.IsNullOrWhiteSpace(ProductName)
-                   && decimal.TryParse(PriceText, out _)
-                   && _session.CurrentUser != null;
+            return string.IsNullOrEmpty(Error) && _session.CurrentUser != null;
         }
 
         private void Save()
@@ -56,7 +56,7 @@ namespace TradingCompany.WPF2.ViewModels
                 return;
             }
 
-            if (!decimal.TryParse(PriceText, out var price))
+            if (!decimal.TryParse(PriceText, System.Globalization.NumberStyles.Number, System.Globalization.CultureInfo.InvariantCulture, out var price))
             {
                 MessageBox.Show("Invalid price.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
@@ -86,10 +86,35 @@ namespace TradingCompany.WPF2.ViewModels
             }
         }
 
-        private void Cancel()
+        private void Cancel() => Close?.Invoke();
+
+        #region IDataErrorInfo
+        public string Error
         {
-            Close?.Invoke();
+            get
+            {
+                // return first encountered error (simple), could aggregate
+                var e = this[nameof(ProductName)];
+                if (!string.IsNullOrEmpty(e)) return e;
+                e = this[nameof(PriceText)];
+                if (!string.IsNullOrEmpty(e)) return e;
+                return string.Empty;
+            }
         }
+
+        public string this[string columnName]
+        {
+            get
+            {
+                return columnName switch
+                {
+                    nameof(ProductName) => DataValidators.ValidateProductName(ProductName),
+                    nameof(PriceText) => DataValidators.ValidatePriceString(PriceText),
+                    _ => string.Empty
+                };
+            }
+        }
+        #endregion
 
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler? PropertyChanged;

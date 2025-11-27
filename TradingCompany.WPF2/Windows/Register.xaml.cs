@@ -24,7 +24,6 @@ namespace TradingCompany.WPF2.Windows
             {
                 cvm.Close += () =>
                 {
-                    // Don't set DialogResult here because the window may not be shown with ShowDialog()
                     _registrationSucceeded = false;
                     Close();
                 };
@@ -33,13 +32,22 @@ namespace TradingCompany.WPF2.Windows
             {
                 rvm.RegisterSuccessful += () =>
                 {
-                    // Record success and close. Caller should inspect RegistrationSucceeded after the window closes.
                     _registrationSucceeded = true;
-                    Close();
+                    // Ensure ShowDialog() returns true to the caller by setting DialogResult.
+                    // Setting DialogResult is only valid when shown with ShowDialog(); guard it.
+                    try
+                    {
+                        this.DialogResult = true;
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        // fallback if DialogResult cannot be set in this state
+                        Close();
+                    }
                 };
                 rvm.RegisterFailed += () =>
                 {
-                    MessageBox.Show("Registration failed", "Error");
+                    MessageBox.Show("Registration failed: User already exists", "Error");
                 };
             }
         }
@@ -62,9 +70,8 @@ namespace TradingCompany.WPF2.Windows
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            // Open login window
             var login = App.Services!.GetRequiredService<Login>();
-            login.Owner = this.Owner; // keep same owner
+            login.Owner = this.Owner;
             this.Close();
             login.ShowDialog();
         }

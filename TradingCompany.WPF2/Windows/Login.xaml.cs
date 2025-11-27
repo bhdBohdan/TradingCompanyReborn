@@ -37,17 +37,14 @@ namespace TradingCompany.WPF2.Windows
             {
                 lvm.LoginSuccessful += () =>
                 {
-                    // Setting DialogResult only valid when window was shown with ShowDialog().
-                    // Guard and fallback to Close() if DialogResult cannot be set.
+                    
                     try
                     {
-                        // prefer setting DialogResult for callers using ShowDialog()
                         DialogResult = true;
+
                     }
                     catch (InvalidOperationException)
                     {
-                        // Not a dialog window (Show was used) or window not in the right state;
-                        // simply close the window to proceed.
                         Close();
                     }
                 };
@@ -61,18 +58,15 @@ namespace TradingCompany.WPF2.Windows
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
             var register = App.Services!.GetRequiredService<Register>();
-            register.Owner = this;            // make login the owner
-            this.Hide();                     // hide, do not close
+            register.Owner = this;
+
             var regResult = register.ShowDialog();
+
             if (regResult == true)
             {
-                // registration succeeded -> set login result so App continues
                 this.DialogResult = true;
-                this.Close();
-                return;
             }
-            // registration canceled/failed -> show login again
-            this.Show();
         }
+
     }
 }

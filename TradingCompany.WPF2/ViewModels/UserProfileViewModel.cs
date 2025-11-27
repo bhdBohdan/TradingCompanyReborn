@@ -10,6 +10,7 @@ using System.Windows.Media.Imaging;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Win32;
 using TradingCompany.DTO;
+using TradingCompany.WPF.Commands;
 using TradingCompany.WPF2.Windows;
 
 namespace TradingCompany.WPF2.ViewModels
@@ -35,8 +36,7 @@ namespace TradingCompany.WPF2.ViewModels
         {
             _session = session;
             _profileManager = profileManager;
-
-            // initialize
+ 
             LoadFromSession();
 
             EditCommand = new RelayCommand(_ => IsEditing = true, _ => !IsEditing);
@@ -246,23 +246,14 @@ namespace TradingCompany.WPF2.ViewModels
             get => _isDirty;
             set { if (_isDirty == value) return; _isDirty = value; OnPropertyChanged(); }
         }
-
-        // ICloseable
+ 
         public Action Close { get; set; }
         
-        // add this to the UserProfileViewModel class (e.g. near other public properties)
+       
         public IList<string> GenderOptions { get; } = new List<string> { "Male", "Female", "Other" };
 
-        // Simple relay
-        private class RelayCommand : ICommand
-        {
-            private readonly Action<object?> _exec;
-            private readonly Predicate<object?>? _can;
-            public RelayCommand(Action<object?> exec, Predicate<object?>? can = null) { _exec = exec; _can = can; }
-            public event EventHandler? CanExecuteChanged { add { CommandManager.RequerySuggested += value; } remove { CommandManager.RequerySuggested -= value; } }
-            public bool CanExecute(object? parameter) => _can?.Invoke(parameter) ?? true;
-            public void Execute(object? parameter) => _exec(parameter);
-        }
+     
+        
 
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler? PropertyChanged;

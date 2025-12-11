@@ -122,9 +122,17 @@ namespace TradingCompany.DALEF.Concrete
                     if (!string.IsNullOrEmpty(entity.Category))
                        existingEntity.Category = entity.Category;
 
+                    if (entity.UserId > 0)
+                        existingEntity.UserId = entity.UserId;
+
                     
 
-                   // _mapper.Map(entity, existingEntity);
+
+                    existingEntity.UpdatedAt = DateTime.Now;
+
+
+
+                    // _mapper.Map(entity, existingEntity);
                     ctx.SaveChanges();
                     return _mapper.Map<Product>(existingEntity);
                 }
@@ -132,6 +140,24 @@ namespace TradingCompany.DALEF.Concrete
                 {
                     Console.WriteLine($"Error updating Product: {ex.Message}");
                     return null;
+                }
+            }
+        }
+
+        public List<User> GetSomeUsers()
+        {
+            using (var ctx = new TradingCompContext(_connStr))
+            {
+                try
+                {
+                    //Random 10 users
+                    var users = ctx.Users.Take(10).ToList();
+                    return _mapper.Map<List<User>>(users);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error retrieving Users: {ex.Message}");
+                    return new List<User>();
                 }
             }
         }

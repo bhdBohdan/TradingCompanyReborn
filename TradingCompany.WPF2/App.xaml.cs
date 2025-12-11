@@ -9,7 +9,6 @@ using System.Windows;
 using TradingCompany.BLL.Concrete;
 using TradingCompany.BLL.Interfaces;
 using TradingCompany.DAL.Interfaces;
-using TradingCompany.DALEF.Automapper;
 using TradingCompany.DALEF.AutoMapper;
 using TradingCompany.DALEF.Concrete;
 using TradingCompany.WPF2.ViewModels;

@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Logging.Abstractions;
-using TradingCompany.DALEF.Automapper;
 using TradingCompany.DALEF.Concrete;
 
 namespace TradingCompany.Test.DALEF

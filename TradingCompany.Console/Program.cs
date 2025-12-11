@@ -4,7 +4,6 @@ namespace TradingCompany.Console
 {
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Logging.Abstractions;
-    using TradingCompany.DALEF.Automapper;
     using TradingCompany.DALEF.AutoMapper;
  
 

@@ -1,0 +1,92 @@
+﻿@model IEnumerable<TradingCompany.DTO.Product>
+
+@{
+    ViewData["Title"] = "View";
+}
+
+<h1>View</h1>
+
+<p>
+    <a asp-action="Create"
+       style="background-color:black; color:white; padding:8px 16px; border-radius:10px; text-decoration:none; display:inline-block;">
+        Create New
+    </a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.User.Username)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UpdatedAt)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>         
+            <td>
+                    @Html.DisplayFor(modelItem => item.User.Username)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UpdatedAt)
+            </td>
+                <td>
+                    @Html.ActionLink(
+                    "Edit",
+                                "Edit",
+                                new { id = item.Id },
+                                new { style = "background:#007bff; color:#fff; padding:4px 10px; border-radius:6px; text-decoration:none;" }
+                                )
+
+                @Html.ActionLink(
+                                "Details",
+                                "Details",
+                                new { id = item.Id },
+                                new { style = "background:#17a2b8; color:#fff; padding:4px 10px; border-radius:6px; text-decoration:none;" }
+                                )
+
+                @Html.ActionLink(
+                                "Delete",
+                                "Delete",
+                                new { id = item.Id },
+                                new { style = "background:#dc3545; color:#fff; padding:4px 10px; border-radius:6px; text-decoration:none;" }
+                                )
+            </td>
+
+        </tr>
+}
+    </tbody>
+</table>

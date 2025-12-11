@@ -11,14 +11,14 @@
 
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
+        
+        
 
-        <!-- COLORS -->
         <SolidColorBrush x:Key="PrimaryColor" Color="#4A90E2"/>
         <SolidColorBrush x:Key="TextGray" Color="#7F8C8D"/>
         <SolidColorBrush x:Key="LightBorder" Color="#E0E0E0"/>
 
-        <!-- DYNAMIC TEXTBOX STYLE
-             Matches the "Read Only" vs "Edit Mode" state -->
+      
         <Style x:Key="DynamicTextBox" TargetType="TextBox">
             <Setter Property="Padding" Value="5"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -215,15 +215,7 @@
                 <TextBox Grid.Row="0" Grid.Column="1" Style="{StaticResource DynamicTextBox}" Margin="0,0,0,15"
                          Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}"
                          IsReadOnly="{Binding IsEditing, Converter={StaticResource BoolToVis}, ConverterParameter=InvertBool}" />
-                <!-- Note: You might need a converter to invert IsEditing boolean for IsReadOnly property. 
-                              Or easier: Bind to a property in ViewModel 'IsNotEditing' -->
-
-                <!-- Assuming ViewModel has logic: IsReadOnly = !IsEditing -->
-                <!-- If you don't have a converter, swap the binding logic in C# or use a DataTrigger in Style.
-                     The Style I wrote above assumes IsReadOnly is set correctly. 
-                     For this XAML, I will assume you bind IsReadOnly to a prop or converter. -->
-
-                <!-- Let's assume IsEditing is the master prop. I'll use Style Triggers on the Window Resources to handle this logic cleanly. -->
+              
 
                 <!-- Last Name -->
                 <TextBlock Grid.Row="1" Grid.Column="0" Text="Last Name"/>

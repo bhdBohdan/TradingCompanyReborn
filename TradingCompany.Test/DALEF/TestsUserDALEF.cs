@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Logging.Abstractions;
-using TradingCompany.DALEF.Automapper;
 using TradingCompany.DALEF.Concrete;
 
 namespace TradingCompany.Test.DALEF
 {
     using Microsoft.Extensions.Configuration;
+    using TradingCompany.DALEF.AutoMapper;
     using Xunit;
 
     public class TestsUserDALEF

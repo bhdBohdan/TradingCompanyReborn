@@ -33,6 +33,11 @@ namespace TradingCompany.DAL.Concrete
             throw new NotImplementedException();
         }
 
+        public List<User> GetSomeUsers()
+        {
+            throw new NotImplementedException();
+        }
+
         public override Product Update(Product entity)
         {
             throw new NotImplementedException();

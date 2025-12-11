@@ -15,5 +15,6 @@ namespace TradingCompany.BLL.Interfaces
         Product UpdateProduct(Product product);
         bool DeleteProduct(int productId);
 
+        List<User> GetSomeUsers();
     }
 }

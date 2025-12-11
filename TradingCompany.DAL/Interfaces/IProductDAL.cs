@@ -9,5 +9,6 @@ namespace TradingCompany.DAL.Interfaces
 {
     public interface IProductDAL: IGenericDAL<Product>
     {
+        List<User> GetSomeUsers();
     }
 }

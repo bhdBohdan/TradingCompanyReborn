@@ -9,7 +9,6 @@ namespace TradingCompany.Test.DALEF
     using AutoMapper;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Logging.Abstractions;
-    using TradingCompany.DALEF.Automapper;
     using TradingCompany.DALEF.AutoMapper;
     using TradingCompany.DALEF.Concrete;
     using Xunit;

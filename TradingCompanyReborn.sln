@@ -19,6 +19,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradingCompany.WPF", "Tradi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradingCompany.BLL.Test", "TradingCompany.BLL.Test\TradingCompany.BLL.Test.csproj", "{472C9490-020E-44B9-AD2B-83F9991A48BB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradingCompany.ASP.MVC", "TradingCompany.ASP.MVC\TradingCompany.ASP.MVC.csproj", "{C73D3AFA-739A-49D7-9725-AECA4AE6558D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradingCompany.ASP.MVC.Test", "TradingCompany.ASP.MVC.Test\TradingCompany.ASP.MVC.Test.csproj", "{34E7997C-2F29-4932-BD56-E5231EB9C482}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +61,14 @@ Global
 		{472C9490-020E-44B9-AD2B-83F9991A48BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{472C9490-020E-44B9-AD2B-83F9991A48BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{472C9490-020E-44B9-AD2B-83F9991A48BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C73D3AFA-739A-49D7-9725-AECA4AE6558D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C73D3AFA-739A-49D7-9725-AECA4AE6558D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C73D3AFA-739A-49D7-9725-AECA4AE6558D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C73D3AFA-739A-49D7-9725-AECA4AE6558D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{34E7997C-2F29-4932-BD56-E5231EB9C482}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{34E7997C-2F29-4932-BD56-E5231EB9C482}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{34E7997C-2F29-4932-BD56-E5231EB9C482}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{34E7997C-2F29-4932-BD56-E5231EB9C482}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

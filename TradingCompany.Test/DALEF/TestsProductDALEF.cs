@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TradingCompany.DALEF.Automapper;
 using TradingCompany.DALEF.AutoMapper;
 using TradingCompany.DALEF.Concrete;
 using TradingCompany.DTO;

@@ -40,5 +40,10 @@ namespace TradingCompany.BLL.Concrete
         {
             return _productDAL.Update(product);
         }
+
+        public List<User> GetSomeUsers()
+        {
+            return _productDAL.GetSomeUsers();
+        }
     }
 }

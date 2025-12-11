@@ -16,6 +16,9 @@ namespace TradingCompany.DALEF.AutoMapper
             CreateMap<TradingCompany.DTO.Role, TradingCompany.DALEF.Models.Role>()
                 .ForMember(dest => dest.RoleId, opt => opt.MapFrom(src => src.Id));
 
+
         }
+
+
     }
 }
